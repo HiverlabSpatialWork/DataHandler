@@ -1,10 +1,11 @@
 const baseModelPath = "../model/";
 
-const rawModels = {
+const models = {
     loadingPlan: "raw/loading-plan.js"
 }
 
-function getRawModel(modelName) {
+
+function getModel(modelName) {
 
     let model;
 
@@ -17,6 +18,6 @@ function getRawModel(modelName) {
 }
 
 module.exports = {
-    getRawModel,
-    rawModels
+    getModel,
+    models
 }

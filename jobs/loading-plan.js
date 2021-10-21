@@ -14,7 +14,7 @@ if (parentPort) {
 
     //Initiate database connection and define model that we need to use
     await DatabaseHelper.connect();
-    const Model = ModelHelper.getRawModel(ModelHelper.rawModels.loadingPlan);
+    const Model = ModelHelper.getModel(ModelHelper.models.loadingPlan);
 
     //Call the API and get it's response
     const response = await axios.get('https://api.jsonbin.io/v3/b/616c61944a82881d6c6179f4', {
