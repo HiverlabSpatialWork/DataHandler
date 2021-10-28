@@ -1,7 +1,17 @@
+const path = require('path');
+
 const jobs = [
     {
-        name: 'loading-plan',
-        interval: '10s'
+        name: path.join('fetch', 'loading-plan'),
+        interval: '5m'
+    },
+    {
+        name: path.join('fetch', 'inv-loc-complete'),
+        interval: '5m'
+    },
+    {
+        name: path.join('fetch', 'flight-schedule'),
+        interval: '5m'
     }
 ]
 

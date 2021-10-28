@@ -16,11 +16,17 @@ if (parentPort) {
         //Initiate database connection and define model that we need to use
         await DatabaseHelper.connect();
 
-        //Initialize the model that you want to deal with. For example, I have used loading plan model here
-        const Model = ModelHelper.getModel(ModelHelper.models.loadingPlan);
+        //Initialize the model that you want to deal with
+        const LoadinPlan = ModelHelper.getModel(ModelHelper.models.loadingPlan);
+        const InvLocComplete = ModelHelper.getModel(ModelHelper.models.InvLocComplete);
+        const FlightSchedule = ModelHelper.getModel(ModelHelper.models.FlightSchedule);
 
         //Start writing your code below
-
+        /*
+        Get MAWB using HAWB from Loading Plan
+        Get Flight Schedule from InvFlightSchedule usnig MAWB
+        Get Consignee details from InvLocComplete using HAWB
+        */
 
 
         //Finish your code above
