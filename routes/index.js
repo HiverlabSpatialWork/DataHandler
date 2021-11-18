@@ -7,10 +7,20 @@ router.post("/", async function (req, res) {
 
     let skip = 0;
     let limit = 10;
-    const Model = ModelHelper.getModel(ModelHelper.models.latData);
+    let modelToQuery = undefined;
 
-    if (req.query.skip) skip = req.query.skip;
-    if (req.query.limit) limit = req.query.limit;
+    if (req.body.skip) skip = req.body.skip;
+    if (req.body.limit) limit = req.body.limit;
+    if (req.body.model) modelToQuery = req.body.model;
+
+    let Model;
+    if (modelToQuery) {
+        //If model is passed in parameter, will be loaded here
+        Model = ModelHelper.getModel(modelToQuery);
+    } else {
+        //Can hardcode if you don't want to pass in parameter
+        Model = ModelHelper.getModel(ModelHelper.models.latData);
+    }
 
     //Apply query based on request parameters if required
     //req.params will give you url parameters (for ex: domain.com?skip=20&limit=10)
