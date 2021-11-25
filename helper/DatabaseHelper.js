@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Config = require("../helper/config");
+const config = require("../helper/config");
 
 const dbUri = 'mongodb://localhost:27017/data-handler';
 

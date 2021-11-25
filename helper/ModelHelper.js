@@ -7,9 +7,7 @@ const models = {
     latData: "transformed/lat-data"
 }
 
-
 function getModel(modelName) {
-
     model = require(baseModelPath + modelName);
     return model;
 }
