@@ -5,6 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>data-handler</Name>
     <RootNamespace>data-handler</RootNamespace>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -19,8 +20,8 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <NodejsPort>1337</NodejsPort>
-    <StartWebBrowser>true</StartWebBrowser>
+    <NodejsPort>3000</NodejsPort>
+    <StartWebBrowser>False</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,12 +31,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.js" />
-    <Content Include="model\warehouse.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="public\raw-data.json" />
+    <Content Include="bin\Microsoft.NodejsTools.WebRole.dll" />
+    <Content Include="helper\config.js" />
+    <Content Include="helper\DatabaseHelper.js" />
+    <Content Include="helper\ModelHelper.js" />
+    <Content Include="jobs\fetch\flight-schedule.js" />
+    <Content Include="jobs\fetch\inv-loc-complete.js" />
+    <Content Include="jobs\fetch\loading-plan.js" />
+    <Content Include="jobs\index.js" />
+    <Content Include="jobs\template.js" />
+    <Content Include="jobs\transform\lat-data.js" />
+    <Content Include="model\raw\inv-flight-schedule.js" />
+    <Content Include="model\raw\inv-loc-complete.js" />
+    <Content Include="model\raw\loading-plan.js" />
+    <Content Include="model\transformed\lat-data.js" />
+    <Content Include="obj\Debug\data-handler.njsproj.CoreCompileInputs.cache" />
+    <Content Include="obj\Debug\data-handler.njsproj.FileListAbsolute.txt" />
+    <Content Include="public\temp\fetchAFFP_LoadingPlan.json" />
+    <Content Include="public\temp\fetchAFGXDInvLocComplete.json" />
+    <Content Include="public\temp\fetchAFInvFlightSchedule.json" />
     <Content Include="routes\index.js" />
-    <Content Include="routes\users.js" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\main.css" />
     <Content Include="README.md" />
@@ -44,11 +59,21 @@
     <Content Include="views\error.pug" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
+    <Folder Include="helper\" />
+    <Folder Include="jobs\" />
+    <Folder Include="jobs\fetch\" />
+    <Folder Include="jobs\transform\" />
     <Folder Include="model\" />
+    <Folder Include="model\raw\" />
+    <Folder Include="model\transformed\" />
+    <Folder Include="obj\" />
+    <Folder Include="obj\Debug\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
     <Folder Include="public\stylesheets\" />
+    <Folder Include="public\temp\" />
     <Folder Include="routes\" />
     <Folder Include="views\" />
   </ItemGroup>
