@@ -10,8 +10,9 @@ if (parentPort) {
     });
 }
 
-(async () => {
+let jobName = "my-fetch-job";
 
+(async () => {
     try {
         //Initiate database connection and define model that we need to use
         await DatabaseHelper.connect();
@@ -21,17 +22,14 @@ if (parentPort) {
 
         //Start writing your code below
 
-
-
         //Finish your code above
 
+        console.log(`[${jobName}] Fetch complete`);
     } catch (e) {
-        console.log(e);
-
+        console.log(`[${jobName}] ${e}`);
     } finally {
         //Close database connection
         DatabaseHelper.disconnect();
         process.exit(0);
     }
-
 })();

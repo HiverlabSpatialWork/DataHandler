@@ -10,8 +10,9 @@ if (parentPort) {
     });
 }
 
-(async () => {
+let jobName = "flight-schedule";
 
+(async () => {
     try {
         await DatabaseHelper.connect();
         const Model = ModelHelper.getModel(ModelHelper.models.invFlightSchedule);
@@ -41,16 +42,14 @@ if (parentPort) {
             } catch (e) {
                 console.log(e);
             }
-
         }
-    } catch (e) {
-        console.log(e);
 
+        console.log(`[${jobName}] Fetch complete`);
+    } catch (e) {
+        console.log(`[${jobName}] ${e}`);
     } finally {
         //Close database connection
         DatabaseHelper.disconnect();
         process.exit(0);
     }
-
-
 })();

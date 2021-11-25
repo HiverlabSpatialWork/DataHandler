@@ -4,7 +4,6 @@ const router = express.Router();
 const ModelHelper = require('../helper/ModelHelper')
 
 router.post("/", async function (req, res) {
-
     let skip = 0;
     let limit = 10;
     let modelToQuery = undefined;
