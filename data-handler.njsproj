@@ -34,17 +34,26 @@
     <Content Include="bin\Microsoft.NodejsTools.WebRole.dll" />
     <Content Include="helper\config.js" />
     <Content Include="helper\DatabaseHelper.js" />
-    <Content Include="helper\ModelHelper.js" />
-    <Content Include="jobs\fetch\flight-schedule.js" />
-    <Content Include="jobs\fetch\inv-loc-complete.js" />
-    <Content Include="jobs\fetch\loading-plan.js" />
+    <Content Include="helper\epoch-helper.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="helper\ModelHelper.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="jobs\fetch\fetchBMSEnergy_Q1.js" />
+    <Content Include="jobs\fetch\fetchBMSEnergy_Q2.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="jobs\index.js" />
     <Content Include="jobs\template.js" />
-    <Content Include="jobs\transform\lat-data.js" />
-    <Content Include="model\raw\inv-flight-schedule.js" />
-    <Content Include="model\raw\inv-loc-complete.js" />
-    <Content Include="model\raw\loading-plan.js" />
-    <Content Include="model\transformed\lat-data.js" />
+    <Content Include="jobs\transform\bms_energy.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\fetch\model-fetchBMSEnergy_Q2.js" />
+    <Content Include="models\transform\model-bms_energy.js" />
+    <Content Include="models\fetch\model-fetchBMSEnergy_Q1.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="obj\Debug\data-handler.njsproj.CoreCompileInputs.cache" />
     <Content Include="obj\Debug\data-handler.njsproj.FileListAbsolute.txt" />
     <Content Include="public\temp\fetchAFFP_LoadingPlan.json" />
@@ -64,9 +73,9 @@
     <Folder Include="jobs\" />
     <Folder Include="jobs\fetch\" />
     <Folder Include="jobs\transform\" />
-    <Folder Include="model\" />
-    <Folder Include="model\raw\" />
-    <Folder Include="model\transformed\" />
+    <Folder Include="models\" />
+    <Folder Include="models\fetch\" />
+    <Folder Include="models\transform\" />
     <Folder Include="obj\" />
     <Folder Include="obj\Debug\" />
     <Folder Include="public\" />

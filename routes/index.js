@@ -2,42 +2,48 @@
 const express = require('express');
 const router = express.Router();
 const ModelHelper = require('../helper/ModelHelper')
+const DatabaseHelper = require('../helper/DatabaseHelper');
 
-router.post("/", async function (req, res) {
+router.get('/', async function (req, res, next) {
+    let modelToQuery = req.baseUrl.replace('/', '');
+    let sort = "";
     let skip = 0;
     let limit = 10;
-    let modelToQuery = undefined;
 
-    if (req.body.skip) skip = req.body.skip;
-    if (req.body.limit) limit = req.body.limit;
-    if (req.body.model) modelToQuery = req.body.model;
+    if (req.query.sort) sort = req.query.sort;
+    if (req.query.skip) skip = parseInt(req.query.skip);
+    if (req.query.limit) limit = parseInt(req.query.limit);
 
-    let Model;
-    if (modelToQuery) {
-        //If model is passed in parameter, will be loaded here
-        Model = ModelHelper.getModel(modelToQuery);
-    } else {
-        //Can hardcode if you don't want to pass in parameter
-        Model = ModelHelper.getModel(ModelHelper.models.latData);
-    }
+    try {
+        //Initiate database connection and define model that we need to use
+        await DatabaseHelper.connect();
 
-    //Apply query based on request parameters if required
-    //req.params will give you url parameters (for ex: domain.com?skip=20&limit=10)
-    //req.body will give you form-body parameters
+        let Model = ModelHelper.models[modelToQuery];
 
-    const query = Model.find(
-        {
-            parameterA: 13
-        },
-        {
-            parameterB: "XYZ"
+        //Apply query based on request parameters if required
+        //req.params will give you url parameters (for ex: domain.com?skip=20&limit=10)
+
+        var records;
+        if (ModelHelper.isRawData(modelToQuery)) {
+            records = await Model.find()
+                .sort(sort)
+                .skip(skip)
+                .limit(limit);
         }
-    ).sort({ time: -1 })
+        else {
+            records = await Model.findOne()
+                .sort({ timestamp: -1 })
+                .select('timestamp data');
+        }
 
-    const count = await query.count()
-    const records = await query.skip(skip)
-        .limit(limit).toArray()
-    res.send(200, records, count);
+        res.status(200).json(records);
+    } catch (e) {
+        res.status(400).json({ error: e.message });
+        //res.status(400).json({ error: `Invalid path of ${modelToQuery}` });
+    } finally {
+        //Close database connection
+        DatabaseHelper.disconnect();
+    }
 });
 
 module.exports = router;

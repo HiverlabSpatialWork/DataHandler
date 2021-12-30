@@ -11,6 +11,18 @@ async function disconnect() {
     await mongoose.disconnect();
 }
 
+mongoose.plugin((schema) => {
+    schema.options.toJSON = {
+        virtuals: true,
+        versionKey: false,
+        transform(doc, ret) {
+            delete ret._id
+            delete ret.id;
+            delete ret.__v;
+        }
+    };
+})
+
 module.exports = {
     connect,
     disconnect

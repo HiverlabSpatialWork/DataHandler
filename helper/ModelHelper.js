@@ -1,18 +1,20 @@
-const baseModelPath = "../model/";
-
-const models = {
-    loadingPlan: "raw/loading-plan.js",
-    invLocComplete: "raw/inv-loc-complete.js",
-    invFlightSchedule: "raw/inv-flight-schedule",
-    latData: "transformed/lat-data"
+const modelPaths = {
+    fetchBMSEnergy_Q1: '../models/fetch/model-fetchBMSEnergy_Q1',
+    fetchBMSEnergy_Q2: '../models/fetch/model-fetchBMSEnergy_Q2',
+    bms_energy: '../models/transform/model-bms_energy',
 }
 
-function getModel(modelName) {
-    model = require(baseModelPath + modelName);
-    return model;
+const models = {
+    fetchBMSEnergy_Q1: require('../models/fetch/model-fetchBMSEnergy_Q1'),
+    fetchBMSEnergy_Q2: require('../models/fetch/model-fetchBMSEnergy_Q2'),
+    bms_energy: require('../models/transform/model-bms_energy'),
+}
+
+function isRawData(modelName) {
+    return modelPaths[modelName].includes("models/fetch");
 }
 
 module.exports = {
-    getModel,
-    models
-}
+    models,
+    isRawData
+};
