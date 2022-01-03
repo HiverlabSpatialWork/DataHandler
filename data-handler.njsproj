@@ -44,12 +44,18 @@
     <Content Include="jobs\fetch\fetchBMSEnergy_Q2.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="jobs\fetch\weather.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="jobs\index.js" />
     <Content Include="jobs\template.js" />
     <Content Include="jobs\transform\bms_energy.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="models\fetch\model-fetchBMSEnergy_Q2.js" />
+    <Content Include="models\fetch\model-weather.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="models\transform\model-bms_energy.js" />
     <Content Include="models\fetch\model-fetchBMSEnergy_Q1.js">
       <SubType>Code</SubType>

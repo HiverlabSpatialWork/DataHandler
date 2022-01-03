@@ -16,6 +16,11 @@ jobs.push({
     cron: '1 * * * *', // on start and on minute 1 of every hour
     timeout: jobs.length * 10000
 });
+jobs.push({
+    name: path.join('fetch', 'weather'),
+    cron: '*/5 * * * *', // every 5th minute
+    timeout: jobs.length * 10000
+});
 
 module.exports = {
     jobs
