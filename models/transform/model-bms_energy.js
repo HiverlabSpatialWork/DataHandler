@@ -2,30 +2,30 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    timestamp: { type: Date },
+    timestamp: { type: Date, default: Date.now },
     data: {
         ts_group_daily: [{
-            group_key: { type: String },
-            max_min_gap: { type: Number },
-            co2_produced: { type: Number },
+            group_key: String,
+            max_min_gap: Number,
+            co2_produced: Number,
         }],
         ts_group_weekly: [{
-            group_key: { type: String },
-            max_min_gap: { type: Number },
-            co2_produced: { type: Number },
+            group_key: String,
+            max_min_gap: Number,
+            co2_produced: Number,
         }],
         ts_group_monthly: [{
-            group_key: { type: String },
-            max_min_gap: { type: Number },
-            co2_produced: { type: Number },
+            group_key: String,
+            max_min_gap: Number,
+            co2_produced: Number,
         }],
         energy_savings: {
-            e_monthly_savings: { type: Number },
-            converted_savings: { type: Number },
+            e_monthly_savings: Number,
+            converted_savings: Number,
         },
         co2_savings: {
-            c_monthly_savings: { type: Number },
-            converted_savings: { type: Number },
+            c_monthly_savings: Number,
+            converted_savings: Number,
         }
     }
 })
