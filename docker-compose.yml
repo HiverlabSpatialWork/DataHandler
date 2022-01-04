@@ -13,11 +13,12 @@ services:
     volumes:
       - db:/data/db
   app:
+    image: data-handler
     depends_on:
       - mongodb
-    build: /
     restart: unless-stopped
     env_file: .env
+    build: /
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:

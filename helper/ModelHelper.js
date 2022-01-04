@@ -1,20 +1,38 @@
-const baseModelPath = "../model/";
-
-const models = {
-    loadingPlan: "raw/loading-plan.js",
-    invLocComplete: "raw/inv-loc-complete.js",
-    invFlightSchedule: "raw/inv-flight-schedule",
-    latData: "transformed/lat-data"
+const modelPaths = {
+    fetchBMSEnergy_Q1: '../models/fetch/model-fetchBMSEnergy_Q1',
+    fetchBMSEnergy_Q2: '../models/fetch/model-fetchBMSEnergy_Q2',
+    bms_energy: '../models/transform/model-bms_energy',
+    weather: '../models/fetch/model-weather.js',
+    fetchOrdersData: '../models/fetch/model-fetchOrdersData',
+    fetchOrderDetailData: '../models/fetch/model-fetchOrderDetailData',
+    fetchPickDetailData: '../models/fetch/model-fetchPickDetailData',
+    fetchSKUMaster: '../models/fetch/model-fetchSKUMaster',
+    fetchAFCLShipments: '../models/fetch/model-fetchAFCLShipments',
+    outbound_orders: '../models/transform/model-outbound_orders',
+    outbound_alerts: '../models/transform/model-outbound_alerts',
+    inbound_alerts: '../models/transform/model-inbound_alerts',
 }
 
+const models = {
+    fetchBMSEnergy_Q1: require(modelPaths.fetchBMSEnergy_Q1),
+    fetchBMSEnergy_Q2: require(modelPaths.fetchBMSEnergy_Q2),
+    bms_energy: require(modelPaths.bms_energy),
+    weather: require(modelPaths.weather),
+    fetchOrdersData: require(modelPaths.fetchOrdersData),
+    fetchOrderDetailData: require(modelPaths.fetchOrderDetailData),
+    fetchPickDetailData: require(modelPaths.fetchPickDetailData),
+    fetchSKUMaster: require(modelPaths.fetchSKUMaster),
+    fetchAFCLShipments: require(modelPaths.fetchAFCLShipments),
+    outbound_orders: require(modelPaths.outbound_orders),
+    outbound_alerts: require(modelPaths.outbound_alerts),
+    inbound_alerts: require(modelPaths.inbound_alerts),
+}
 
-function getModel(modelName) {
-
-    model = require(baseModelPath + modelName);
-    return model;
+function isRawData(modelName) {
+    return modelPaths[modelName].includes("models/fetch");
 }
 
 module.exports = {
-    getModel,
-    models
-}
+    models,
+    isRawData
+};

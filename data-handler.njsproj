@@ -5,6 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>data-handler</Name>
     <RootNamespace>data-handler</RootNamespace>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -19,8 +20,8 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <NodejsPort>1337</NodejsPort>
-    <StartWebBrowser>true</StartWebBrowser>
+    <NodejsPort>3000</NodejsPort>
+    <StartWebBrowser>False</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,13 +31,58 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.js" />
-    <Content Include="model\warehouse.js">
+    <Content Include="bin\Microsoft.NodejsTools.WebRole.dll" />
+    <Content Include="helper\config.js" />
+    <Content Include="helper\DatabaseHelper.js" />
+    <Content Include="helper\epoch-helper.js">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="public\raw-data.json" />
-    <Content Include="routes\disaster.js">
+    <Content Include="helper\ModelHelper.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="jobs\fetch\fetchOrderDetailData.js" />
+    <Content Include="jobs\fetch\fetchPickDetailData.js" />
+    <Content Include="jobs\fetch\fetchOrdersData.js" />
+    <Content Include="jobs\fetch\fetchSKUMaster.js" />
+    <Content Include="jobs\fetch\fetchAFCLShipments.js" />
+    <Content Include="jobs\fetch\fetchBMSEnergy_Q1.js" />
+    <Content Include="jobs\fetch\fetchBMSEnergy_Q2.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="jobs\fetch\weather.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="jobs\index.js" />
+    <Content Include="jobs\transform\outbound_alerts.js" />
+    <Content Include="jobs\transform\outbound_orders.js" />
+    <Content Include="jobs\transform\inbound_alerts.js" />
+    <Content Include="jobs\transform\bms_energy.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\fetch\model-fetchOrdersData.js" />
+    <Content Include="models\fetch\model-fetchAFCLShipments.js" />
+    <Content Include="models\fetch\model-fetchSKUMaster.js" />
+    <Content Include="models\fetch\model-fetchBMSEnergy_Q2.js" />
+    <Content Include="models\fetch\model-fetchPickDetailData.js" />
+    <Content Include="models\fetch\model-fetchOrderDetailData.js" />
+    <Content Include="models\fetch\model-weather.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\model-template.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\transform\model-outbound_alerts.js" />
+    <Content Include="models\transform\model-outbound_orders.js" />
+    <Content Include="models\transform\model-inbound_alerts.js" />
+    <Content Include="models\transform\model-bms_energy.js" />
+    <Content Include="models\fetch\model-fetchBMSEnergy_Q1.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="obj\Debug\data-handler.njsproj.CoreCompileInputs.cache" />
+    <Content Include="obj\Debug\data-handler.njsproj.FileListAbsolute.txt" />
+    <Content Include="public\temp\fetchAFFP_LoadingPlan.json" />
+    <Content Include="public\temp\fetchAFGXDInvLocComplete.json" />
+    <Content Include="public\temp\fetchAFInvFlightSchedule.json" />
     <Content Include="routes\index.js" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\main.css" />
@@ -46,11 +92,21 @@
     <Content Include="views\error.pug" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="model\" />
+    <Folder Include="bin\" />
+    <Folder Include="helper\" />
+    <Folder Include="jobs\" />
+    <Folder Include="jobs\fetch\" />
+    <Folder Include="jobs\transform\" />
+    <Folder Include="models\" />
+    <Folder Include="models\fetch\" />
+    <Folder Include="models\transform\" />
+    <Folder Include="obj\" />
+    <Folder Include="obj\Debug\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
     <Folder Include="public\stylesheets\" />
+    <Folder Include="public\temp\" />
     <Folder Include="routes\" />
     <Folder Include="views\" />
   </ItemGroup>

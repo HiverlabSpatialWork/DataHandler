@@ -16,6 +16,16 @@ var app = express();
 
 require('dotenv').config();
 
+process.on('unhandledRejection', (error, promise) => {
+    console.log(' Oh Lord! We forgot to handle a promise rejection here: ', promise);
+    console.log(' The error was: ', error);
+});
+
+process.on('uncaughtException', (error) => {
+    console.log('Oh my god, something terrible happened: ', error);
+    process.exit(1); // exit application
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -28,8 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/disaster', disaster);
+app.use('/*', index);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -69,7 +78,8 @@ var server = app.listen(app.get('port'), function () {
 });
 
 const bree = new Bree({
-    jobs: JobIndex.jobs
+    jobs: JobIndex.jobs,
+    workerMessageHandler: message => console.log(message.message)
 });
 
 const graceful = new Graceful({ brees: [bree] });
