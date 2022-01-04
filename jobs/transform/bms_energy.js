@@ -113,9 +113,9 @@ if (parentPort) {
         await Model.findOneAndUpdate(query, update, options);
 
         //Finish your code above
-        console.log(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
+        print(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
     } catch (e) {
-        console.log(`[${jobName}] ${e}`);
+        print(`[${jobName}] ${e}`);
     } finally {
         //Close database connection
         DatabaseHelper.disconnect();

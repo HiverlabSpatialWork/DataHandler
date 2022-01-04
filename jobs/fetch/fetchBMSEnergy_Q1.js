@@ -1,4 +1,6 @@
 const { parentPort } = require("worker_threads");
+function print(message) { if (parentPort != null) parentPort.postMessage(message); }
+
 const axios = require('axios');
 const DatabaseHelper = require('../../helper/DatabaseHelper');
 const ModelHelper = require('../../helper/ModelHelper');
@@ -29,6 +31,11 @@ if (parentPort) {
 
         const dataArray = response.data;
 
+        if (dataArray.length == 0)
+            throw "Empty data from API";
+        else if (checkAllPropertiesNull(dataArray[0]))
+            throw "Null data from API";
+
         for (let data of dataArray) {
             data.ts = epochHelper.convertEpoch(data.ts);
             var query = { seq: data.seq },
@@ -38,12 +45,18 @@ if (parentPort) {
             await Model.findOneAndUpdate(query, update, options);
         }
 
-        console.log(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
+        print(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
     } catch (e) {
-        console.log(`[${jobName}] ${e}`);
+        print(`[${jobName}] ${e}`);
     } finally {
         //Close database connection
         DatabaseHelper.disconnect();
         process.exit(0);
     }
 })();
+
+function checkAllPropertiesNull(obj) {
+    for (var prop in obj)
+        if (obj[prop] != null) return false;
+    return true;
+}

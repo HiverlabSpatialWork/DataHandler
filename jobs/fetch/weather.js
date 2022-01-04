@@ -1,4 +1,6 @@
 const { parentPort } = require("worker_threads");
+function print(message) { if (parentPort != null) parentPort.postMessage(message); }
+
 const axios = require('axios');
 const DatabaseHelper = require('../../helper/DatabaseHelper');
 const ModelHelper = require('../../helper/ModelHelper');
@@ -120,9 +122,9 @@ const cities = [
 
         await Model.findOneAndUpdate(query, update, options);
 
-        console.log(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
+        print(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
     } catch (e) {
-        console.log(`[${jobName}] ${e}`);
+        print(`[${jobName}] ${e}`);
     } finally {
         //Close database connection
         DatabaseHelper.disconnect();
