@@ -9,6 +9,8 @@ const modelPaths = {
     fetchSKUMaster: '../models/fetch/model-fetchSKUMaster',
     fetchAFCLShipments: '../models/fetch/model-fetchAFCLShipments',
     outbound_orders: '../models/transform/model-outbound_orders',
+    outbound_alerts: '../models/transform/model-outbound_alerts',
+    inbound_alerts: '../models/transform/model-inbound_alerts',
 }
 
 const models = {
@@ -22,6 +24,8 @@ const models = {
     fetchSKUMaster: require(modelPaths.fetchSKUMaster),
     fetchAFCLShipments: require(modelPaths.fetchAFCLShipments),
     outbound_orders: require(modelPaths.outbound_orders),
+    outbound_alerts: require(modelPaths.outbound_alerts),
+    inbound_alerts: require(modelPaths.inbound_alerts),
 }
 
 function isRawData(modelName) {

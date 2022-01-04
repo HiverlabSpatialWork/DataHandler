@@ -40,6 +40,11 @@
     <Content Include="helper\ModelHelper.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="jobs\fetch\fetchOrderDetailData.js" />
+    <Content Include="jobs\fetch\fetchPickDetailData.js" />
+    <Content Include="jobs\fetch\fetchOrdersData.js" />
+    <Content Include="jobs\fetch\fetchSKUMaster.js" />
+    <Content Include="jobs\fetch\fetchAFCLShipments.js" />
     <Content Include="jobs\fetch\fetchBMSEnergy_Q1.js" />
     <Content Include="jobs\fetch\fetchBMSEnergy_Q2.js">
       <SubType>Code</SubType>
@@ -48,14 +53,27 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="jobs\index.js" />
-    <Content Include="jobs\template.js" />
+    <Content Include="jobs\transform\outbound_alerts.js" />
+    <Content Include="jobs\transform\outbound_orders.js" />
+    <Content Include="jobs\transform\inbound_alerts.js" />
     <Content Include="jobs\transform\bms_energy.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="models\fetch\model-fetchOrdersData.js" />
+    <Content Include="models\fetch\model-fetchAFCLShipments.js" />
+    <Content Include="models\fetch\model-fetchSKUMaster.js" />
     <Content Include="models\fetch\model-fetchBMSEnergy_Q2.js" />
+    <Content Include="models\fetch\model-fetchPickDetailData.js" />
+    <Content Include="models\fetch\model-fetchOrderDetailData.js" />
     <Content Include="models\fetch\model-weather.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="models\model-template.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="models\transform\model-outbound_alerts.js" />
+    <Content Include="models\transform\model-outbound_orders.js" />
+    <Content Include="models\transform\model-inbound_alerts.js" />
     <Content Include="models\transform\model-bms_energy.js" />
     <Content Include="models\fetch\model-fetchBMSEnergy_Q1.js">
       <SubType>Code</SubType>
