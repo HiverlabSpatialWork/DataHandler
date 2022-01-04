@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const modelName = 'bms_energy';
 const schema = new Schema({
     timestamp: { type: Date, default: Date.now },
     data: {
@@ -29,4 +30,5 @@ const schema = new Schema({
         }
     }
 })
-module.exports = mongoose.model('bms_energy', schema, 'bms_energy');;
+
+module.exports = mongoose.model(modelName, schema, modelName);

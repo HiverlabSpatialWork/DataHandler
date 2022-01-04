@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const modelName = 'weather';
 const schema = new Schema({
     timestamp: { type: Date, default: Date.now },
     cities: {
@@ -37,10 +38,5 @@ const schema = new Schema({
         }],
     },
 });
-module.exports = mongoose.model('weather', schema, 'weather');
 
-//const schema = new Schema({
-//    seq: Number,
-//    ts: Date,
-//    value: Number
-//});
+module.exports = mongoose.model(modelName, schema, modelName);

@@ -20,6 +20,8 @@ if (parentPort) {
 
 (async () => {
     try {
+        var startTime = Date.now();
+
         //Initiate database connection and define model that we need to use
         await DatabaseHelper.connect();
 
@@ -102,7 +104,7 @@ if (parentPort) {
         doc.data.co2_savings.converted_savings =
             Math.round(doc.data.co2_savings.c_monthly_savings / 380);
 
-        print(doc);
+        //print(doc);
 
         var query = { timestamp: doc.timestamp },
             update = doc,
@@ -111,7 +113,7 @@ if (parentPort) {
         await Model.findOneAndUpdate(query, update, options);
 
         //Finish your code above
-        console.log(`[${jobName}] Transform complete on ${Date()}`);
+        console.log(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
     } catch (e) {
         console.log(`[${jobName}] ${e}`);
     } finally {

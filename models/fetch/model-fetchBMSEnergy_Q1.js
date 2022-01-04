@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const modelName = 'fetchBMSEnergy_Q1';
 const schema = new Schema({
-    seq: Number,
+    seq: { type: Number, index: true },
     ts: Date,
     value: Number
 });
-module.exports = mongoose.model('fetchBMSEnergy_Q1', schema, 'fetchBMSEnergy_Q1');
+
+module.exports = mongoose.model(modelName, schema, modelName);

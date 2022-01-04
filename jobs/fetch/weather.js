@@ -71,6 +71,8 @@ const cities = [
 
 (async () => {
     try {
+        var startTime = Date.now();
+
         await DatabaseHelper.connect();
 
         var doc = {
@@ -118,7 +120,7 @@ const cities = [
 
         await Model.findOneAndUpdate(query, update, options);
 
-        console.log(`[${jobName}] Fetch complete on ${Date()}`);
+        console.log(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
     } catch (e) {
         console.log(`[${jobName}] ${e}`);
     } finally {
