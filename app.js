@@ -9,10 +9,12 @@ const Graceful = require('@ladjs/graceful');
 const Bree = require('bree');
 const JobIndex = require('./jobs/index');
 
-var index = require('./routes/index');
+const index = require('./routes/index');
+const disaster = require('./routes/disaster');
 
 var app = express();
-var mongoose = require('mongoose');
+
+require('dotenv').config();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/disaster', disaster);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -64,7 +67,6 @@ app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function () {
     debug('Express server listening on port ' + server.address().port);
 });
-
 
 const bree = new Bree({
     jobs: JobIndex.jobs

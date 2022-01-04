@@ -3,8 +3,11 @@ const express = require('express');
 const router = express.Router();
 const ModelHelper = require('../helper/ModelHelper')
 
-router.post("/", async function (req, res) {
+router.get("/", async function (req, res) {
+    res.send("Yo! Data handler is running");
+});
 
+router.post("/", async function (req, res) {
     let skip = 0;
     let limit = 10;
     let modelToQuery = undefined;
