@@ -72,7 +72,9 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.set('port', process.env.PORT || 3000);
+// todo: fix port not reading from .env?
+//app.set('port', process.env.PORT || 42423);
+app.set('port', 42423);
 
 var server = app.listen(app.get('port'), function () {
     debug('Express server listening on port ' + server.address().port);
