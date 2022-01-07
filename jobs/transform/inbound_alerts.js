@@ -19,14 +19,15 @@ if (parentPort) {
 
 (async () => {
     try {
-        var startTime = Date.now();
+        var startTime = new Date();
+        print(`[${jobName}] Starting transform on ${startTime.toISOString()}`);
 
         //Initiate database connection and define model that we need to use
         await DatabaseHelper.connect();
 
         //Start writing your code below
         var doc = {
-            timestamp: Date().now,
+            timestamp: startTime,
             data: {
                 today: {
                     total_volume: 0,
@@ -41,21 +42,24 @@ if (parentPort) {
             }
         };
 
-        var now = Date.now();
+        var now = startTime;
         var startOfToday = datefns.subHours(datefns.startOfDay(now), 8);
         var endOfToday = datefns.addHours(startOfToday, 24);
         var endOfNextWeek = datefns.addDays(endOfToday, 7);
 
         var ordersToday = await fetchAFCLShipments.find()
-            .where('ArrDT').ne(null).gt(startOfToday).lt(endOfToday);
+            .where('ArrDT').ne(null).gt(startOfToday).lt(endOfToday)
+            .select('-_id -__v');
         var ordersWeek = await fetchAFCLShipments.find()
-            .where('ArrDT').ne(null).gt(startOfToday).lt(endOfNextWeek);
+            .where('ArrDT').ne(null).gt(startOfToday).lt(endOfNextWeek)
+            .select('-_id -__v');
 
-        doc.data.today.total_volume = _.reduce(ordersToday, (memo, o) => memo += parseFloat(o.STDCUBE), 0);
+        var reduceFunc = (memo, o) => memo += o.GrossVol != null ? parseFloat(o.GrossVol) : 0;
+        doc.data.today.total_volume = _.reduce(ordersToday, reduceFunc, 0);
         doc.data.today.entries_count = ordersToday.length;
         doc.data.today.entries = ordersToday;
 
-        doc.data.sevenDays.total_volume = _.reduce(ordersWeek, (memo, o) => memo += parseFloat(o.STDCUBE), 0);
+        doc.data.sevenDays.total_volume = _.reduce(ordersWeek, reduceFunc, 0);
         doc.data.sevenDays.entries_count = ordersWeek.length;
         doc.data.sevenDays.entries = ordersWeek;
 
@@ -66,7 +70,7 @@ if (parentPort) {
         await Model.findOneAndUpdate(query, update, options);
 
         //Finish your code above
-        print(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
+        print(`[${jobName}] Transform completed in ${(Date.now() - startTime) / 1000.0} seconds`);
     } catch (e) {
         print(`[${jobName}] ${e}`);
     } finally {

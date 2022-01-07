@@ -22,17 +22,19 @@ if (parentPort) {
 
 (async () => {
     try {
-        var startTime = Date.now();
+        var startTime = new Date();
+        print(`[${jobName}] Starting transform on ${startTime.toISOString()}`);
 
         //Initiate database connection and define model that we need to use
         await DatabaseHelper.connect();
 
-        var orders = await fetchOrdersData.find();
+        var orders = await fetchOrdersData.find()
+            .where('REQUESTEDSHIPDATE').gte(datefns.startOfDay(startTime));
         var orderDetails = await fetchOrderDetailData.find();
         var pickDetails = await fetchPickDetailData.find();
         var skuMaster = await fetchSKUMaster.find();
 
-        //print(`[${jobName}] MongoDB find(): ${(Date.now() - startTime) / 1000.0} seconds`);
+        print(`[${jobName}] MongoDB find(): ${datefns.differenceInSeconds(new Date(), startTime)} seconds`);
 
         var dataArray = _.chain(orders)
             .map(o => {
@@ -101,7 +103,7 @@ if (parentPort) {
         }
 
         //Finish your code above
-        print(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
+        print(`[${jobName}] Transform completed in ${(Date.now() - startTime) / 1000.0} seconds`);
     } catch (e) {
         print(`[${jobName}] ${e}`);
     } finally {

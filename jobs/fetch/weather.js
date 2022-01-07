@@ -73,7 +73,8 @@ const cities = [
 
 (async () => {
     try {
-        var startTime = Date.now();
+        var startTime = new Date();
+        print(`[${jobName}] Starting fetch on ${startTime.toISOString()}`);
 
         await DatabaseHelper.connect();
 
