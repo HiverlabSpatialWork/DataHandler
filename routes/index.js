@@ -8,7 +8,7 @@ router.get('/', async function (req, res, next) {
     let modelToQuery = req.baseUrl.replace('/', '');
     let sort = "";
     let skip = 0;
-    let limit = 10;
+    let limit = 100;
 
     if (req.query.sort) sort = req.query.sort;
     if (req.query.skip) skip = parseInt(req.query.skip);
@@ -28,12 +28,13 @@ router.get('/', async function (req, res, next) {
             records = await Model.find()
                 .sort(sort)
                 .skip(skip)
-                .limit(limit);
+                .limit(limit)
+                .select('-_id -__v');
         }
         else {
             records = await Model.findOne()
-                .sort({ timestamp: -1 })
-                .select('timestamp data');
+                .sort('-timestamp')
+                .select('timestamp data -_id');
         }
 
         res.status(200).json(records);
