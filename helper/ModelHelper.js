@@ -19,6 +19,7 @@ const transformedDataModels = {
     weather: '../models/fetch/model-weather.js',
     outbound_alerts: '../models/transform/model-outbound_alerts',
     inbound_alerts: '../models/transform/model-inbound_alerts',
+    flights: '../models/transform/model-flights.js',
 }
 
 const models = {
@@ -35,6 +36,7 @@ const models = {
     weather: require(transformedDataModels.weather),
     outbound_alerts: require(transformedDataModels.outbound_alerts),
     inbound_alerts: require(transformedDataModels.inbound_alerts),
+    flights: require(transformedDataModels.flights),
 }
 
 function isRawData(modelName) {

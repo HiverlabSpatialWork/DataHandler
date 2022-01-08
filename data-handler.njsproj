@@ -53,6 +53,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="jobs\index.js" />
+    <Content Include="jobs\transform\flights.js" />
     <Content Include="jobs\transform\outbound_alerts.js" />
     <Content Include="jobs\transform\outbound_orders.js" />
     <Content Include="jobs\transform\inbound_alerts.js" />
@@ -78,6 +79,7 @@
     <Content Include="models\fetch\model-fetchBMSEnergy_Q1.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="models\transform\model-flights.js" />
     <Content Include="obj\Debug\data-handler.njsproj.CoreCompileInputs.cache" />
     <Content Include="obj\Debug\data-handler.njsproj.FileListAbsolute.txt" />
     <Content Include="public\temp\fetchAFFP_LoadingPlan.json" />

@@ -61,6 +61,11 @@ jobs.push({
     interval: '10m',
     timeout: 0
 });
+jobs.push({
+    name: path.join('transform', 'flights'),
+    interval: '10m',
+    timeout: 0
+});
 
 module.exports = {
     jobs
