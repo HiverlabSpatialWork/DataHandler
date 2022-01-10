@@ -34,7 +34,7 @@ router.get('/', async function (req, res, next) {
         else {
             records = await Model.findOne()
                 .sort('-timestamp')
-                .select('timestamp data -_id');
+                .select('-__v -_id');
         }
 
         res.status(200).json(records);
