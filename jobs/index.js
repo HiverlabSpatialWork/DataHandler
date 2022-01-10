@@ -18,7 +18,7 @@ jobs.push({
 });
 jobs.push({
     name: path.join('fetch', 'weather'),
-    interval: '60m', // every 60 minutes
+    cron: '0 * * * *',
     timeout: 0
 });
 jobs.push({

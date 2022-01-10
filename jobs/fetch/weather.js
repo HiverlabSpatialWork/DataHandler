@@ -88,7 +88,7 @@ const cities = [
             var lat = split[0], lon = split[1];
 
             //Call the API and get its response
-            var response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&appid=${apiKey}`);
+            var response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=metric&appid=${apiKey}`);
 
             var data = response.data;
 
