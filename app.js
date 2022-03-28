@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 const Graceful = require('@ladjs/graceful');
 const Bree = require('bree');
 const JobIndex = require('./jobs/index');
+const broker = require('./mqtt/broker');
 
 const index = require('./routes/index');
 const disaster = require('./routes/disaster');
@@ -74,13 +75,18 @@ app.use(function (err, req, res, next) {
 
 app.set('port', process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function () {
+const server = app.listen(app.get('port'), function () {
     debug('Express server listening on port ' + server.address().port);
 });
 
 const bree = new Bree({
     jobs: JobIndex.jobs,
     workerMessageHandler: message => console.log(message.message)
+});
+
+broker.listen(() => {
+    
+    //broker.setupAuthentication();
 });
 
 const graceful = new Graceful({ brees: [bree] });
