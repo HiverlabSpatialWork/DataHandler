@@ -12,6 +12,7 @@ const broker = require('./mqtt/broker');
 
 const index = require('./routes/index');
 const disaster = require('./routes/disaster');
+const mqttRoute = require('./routes/mqtt-sample');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/*', index);
 app.use("/disaster", disaster);
+app.use("/mqtt", mqttRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -73,20 +75,22 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.set('port', process.env.PORT || 3000);
+const aedes = require('aedes')()
+const mqttBroker = require('net').createServer(aedes.handle)
+const port = 1883
 
+mqttBroker.listen(port, function () {
+    console.log('MQTT started and listening on port ', port)
+})
+
+app.set('port', process.env.PORT || 3000);
 const server = app.listen(app.get('port'), function () {
-    debug('Express server listening on port ' + server.address().port);
+    console.log('Express server listening on port ' + server.address().port);
 });
 
 const bree = new Bree({
     jobs: JobIndex.jobs,
     workerMessageHandler: message => console.log(message.message)
-});
-
-broker.listen(() => {
-    
-    //broker.setupAuthentication();
 });
 
 const graceful = new Graceful({ brees: [bree] });
