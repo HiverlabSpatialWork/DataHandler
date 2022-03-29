@@ -2,14 +2,13 @@ const { parentPort } = require("worker_threads");
 function print(message) { if (parentPort != null) parentPort.postMessage(message); }
 
 const DatabaseHelper = require('../../helper/DatabaseHelper');
-const ModelHelper = require('../../helper/ModelHelper');
 const _ = require('underscore');
 const datefns = require('date-fns');
 
 let jobName = 'bms_energy';
-const Model = ModelHelper.models[jobName];
-const fetchBMSEnergy_Q1 = ModelHelper.models['fetchBMSEnergy_Q1'];
-const fetchBMSEnergy_Q2 = ModelHelper.models['fetchBMSEnergy_Q2'];
+const Model = require(`model-${jobName}`);
+const fetchBMSEnergy_Q1 = require(`model-${fetchBMSEnergy_Q1}`);
+const fetchBMSEnergy_Q2 = require(`model-${fetchBMSEnergy_Q2}`);
 
 let isCancelled = false;
 if (parentPort) {

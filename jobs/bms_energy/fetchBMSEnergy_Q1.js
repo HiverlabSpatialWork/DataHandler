@@ -3,13 +3,10 @@ function print(message) { if (parentPort != null) parentPort.postMessage(message
 
 const axios = require('axios');
 const DatabaseHelper = require('../../helper/DatabaseHelper');
-const ModelHelper = require('../../helper/ModelHelper');
-const mongoose = require('mongoose');
 const epochHelper = require("../../helper/epoch-helper");
-const Schema = mongoose.Schema;
 
 let jobName = "fetchBMSEnergy_Q1";
-const Model = ModelHelper.models[jobName];
+const Model = require(`model-${jobName}`);
 
 let isCancelled = false;
 if (parentPort) {
