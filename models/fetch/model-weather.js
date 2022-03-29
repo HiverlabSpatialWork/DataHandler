@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const modelName = 'weather';
 const schema = new Schema({
-    timestamp: { type: Date, default: Date.now },
+    timestamp: { type: Date, default: new Date() },
     cities: {
         name: String,
         coord: String,

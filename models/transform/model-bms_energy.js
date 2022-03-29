@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const modelName = 'bms_energy';
 const schema = new Schema({
-    timestamp: { type: Date, default: Date.now },
+    timestamp: { type: Date, default: new Date() },
     data: {
         ts_group_daily: [{
             group_key: String,

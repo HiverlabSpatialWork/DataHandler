@@ -3,16 +3,18 @@ const Schema = mongoose.Schema;
 
 const modelName = 'outbound_alerts';
 const schema = new Schema({
-    timestamp: { type: Date, default: Date.now },
+    timestamp: { type: Date, default: new Date() },
     data: {
         today: {
             total_volume: Number,
+            total_quantity: Number,
             entries_count: Number,
             entries: [{
             }],
         },
         sevenDays: {
             total_volume: Number,
+            total_quantity: Number,
             entries_count: Number,
             entries: [{
             }],

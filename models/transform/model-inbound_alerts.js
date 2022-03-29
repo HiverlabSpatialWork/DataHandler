@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const modelName = 'inbound_alerts';
 const schema = new Schema({
-    timestamp: { type: Date, default: Date.now },
+    timestamp: { type: Date, default: new Date() },
     data: {
         today: {
             total_volume: Number,

@@ -83,7 +83,9 @@ mqttBroker.listen(port, function () {
     console.log('MQTT started and listening on port ', port)
 })
 
-app.set('port', process.env.PORT || 3000);
+// todo: fix port not reading from .env?
+//app.set('port', process.env.PORT || 42423);
+app.set('port', 42423);
 const server = app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + server.address().port);
 });

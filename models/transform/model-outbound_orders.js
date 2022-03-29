@@ -5,18 +5,23 @@ const modelName = 'outbound_orders';
 const schema = new Schema({
     ORDERKEY: { type: String, index: true },
     ORDERDATE: Date,
-    STATUS: String,
     ORDERGROUP: String,
+    STATUS: String,
     SUSR1: String,
     SUSR2: String,
     REQUESTEDSHIPDATE: Date,
     HAWB: String,
     C_COUNTRY: String,
-    ORDERLINENUMBER: String,
-    SKU: String,
-    ORIGINALQTY: String,
     STDCUBE: String,
-    PALLETNUMBER: String,
+    TOTALQTY: String,
+    ORDERDETAILS: [{
+        ITEMCUBE: Number,
+        ORDERKEY: String,
+        ORDERLINENUMBER: String,
+        ORIGINALQTY: Number,
+        SKU: String,
+        STORERKEY: String,
+    }],
 })
 
 module.exports = mongoose.model(modelName, schema, modelName);

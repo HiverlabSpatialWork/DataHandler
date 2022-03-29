@@ -19,14 +19,15 @@ if (parentPort) {
 
 (async () => {
     try {
-        var startTime = Date.now();
+        var startTime = new Date();
+        print(`[${jobName}] Starting transform on ${startTime.toISOString()}`);
 
         //Initiate database connection and define model that we need to use
         await DatabaseHelper.connect();
 
         //Start writing your code below
         var doc = {
-            timestamp: Date.now(),
+            timestamp: startTime,
             data_count: 0,
             data: {
                 today: {
@@ -42,23 +43,29 @@ if (parentPort) {
             }
         };
 
-        var now = Date.now();
+        var now = startTime;
         var startOfToday = datefns.subHours(datefns.startOfDay(now), 8);
         var endOfToday = datefns.addHours(startOfToday, 24);
         var endOfNextWeek = datefns.addDays(endOfToday, 7);
 
         var ordersToday = await outbound_orders.find()
             .where('REQUESTEDSHIPDATE').gt(startOfToday).lt(endOfToday)
-            .sort({ REQUESTEDSHIPDATE: 1, ORDERDATE: 1 });
+            .sort({ REQUESTEDSHIPDATE: 1, ORDERDATE: 1 })
+            .select('-_id -__v');
         var ordersWeek = await outbound_orders.find()
             .where('REQUESTEDSHIPDATE').gt(startOfToday).lt(endOfNextWeek)
-            .sort({ REQUESTEDSHIPDATE: 1, ORDERDATE: 1 });
+            .sort({ REQUESTEDSHIPDATE: 1, ORDERDATE: 1 })
+            .select('-_id -__v');
 
-        doc.data.today.total_volume = _.reduce(ordersToday, (memo, o) => memo += parseFloat(o.STDCUBE), 0);
+        var reduceByVolume = (memo, o) => memo += o.STDCUBE != null ? parseFloat(o.STDCUBE) : 0;
+        var reduceByQuantity = (memo, o) => memo += o.TOTALQTY != null ? parseFloat(o.TOTALQTY) : 0;
+        doc.data.today.total_quantity = _.reduce(ordersToday, reduceByQuantity, 0);
+        doc.data.today.total_volume = _.reduce(ordersToday, reduceByVolume, 0);
         doc.data.today.entries_count = ordersToday.length;
         doc.data.today.entries = ordersToday;
 
-        doc.data.sevenDays.total_volume = _.reduce(ordersWeek, (memo, o) => memo += parseFloat(o.STDCUBE), 0);
+        doc.data.sevenDays.total_quantity = _.reduce(ordersWeek, reduceByQuantity, 0);
+        doc.data.sevenDays.total_volume = _.reduce(ordersWeek, reduceByVolume, 0);
         doc.data.sevenDays.entries_count = ordersWeek.length;
         doc.data.sevenDays.entries = ordersWeek;
 
@@ -71,7 +78,7 @@ if (parentPort) {
         await Model.findOneAndUpdate(query, update, options);
 
         //Finish your code above
-        print(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
+        print(`[${jobName}] Transform completed in ${(Date.now() - startTime) / 1000.0} seconds`);
     } catch (e) {
         print(`[${jobName}] ${e}`);
     } finally {
@@ -80,26 +87,3 @@ if (parentPort) {
         process.exit(0);
     }
 })();
-
-function getValueDeltaByDate(data, date) {
-    return getValueDelta(data, date, datefns.startOfDay, datefns.endOfDay);
-}
-
-function getValueDeltaByWeek(data, anyDayInWeek) {
-    return getValueDelta(data, anyDayInWeek, datefns.startOfISOWeek, datefns.endOfISOWeek);
-}
-
-function getValueDeltaByMonth(data, anyDayInMonth) {
-    return getValueDelta(data, anyDayInMonth, datefns.startOfMonth, datefns.endOfMonth);
-}
-
-function getValueDelta(data, date, startDateFunc, endDateFunc) {
-    var dataArray = _.chain(data)
-        .filter(d => startDateFunc(date) < d.ts && d.ts < endDateFunc(date))
-        .sortBy(d => d.ts)
-        .value();
-    if (dataArray.length == 0) return null;
-    var firstValue = _.first(dataArray).value;
-    var lastValue = _.last(dataArray).value;
-    return lastValue - firstValue;
-}
