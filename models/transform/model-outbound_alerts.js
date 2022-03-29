@@ -7,12 +7,14 @@ const schema = new Schema({
     data: {
         today: {
             total_volume: Number,
+            total_quantity: Number,
             entries_count: Number,
             entries: [{
             }],
         },
         sevenDays: {
             total_volume: Number,
+            total_quantity: Number,
             entries_count: Number,
             entries: [{
             }],

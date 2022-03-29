@@ -57,12 +57,15 @@ if (parentPort) {
             .sort({ REQUESTEDSHIPDATE: 1, ORDERDATE: 1 })
             .select('-_id -__v');
 
-        var reduceFunc = (memo, o) => memo += o.STDCUBE != null ? parseFloat(o.STDCUBE) : 0;
-        doc.data.today.total_volume = _.reduce(ordersToday, reduceFunc, 0);
+        var reduceByVolume = (memo, o) => memo += o.STDCUBE != null ? parseFloat(o.STDCUBE) : 0;
+        var reduceByQuantity = (memo, o) => memo += o.TOTALQTY != null ? parseFloat(o.TOTALQTY) : 0;
+        doc.data.today.total_quantity = _.reduce(ordersToday, reduceByQuantity, 0);
+        doc.data.today.total_volume = _.reduce(ordersToday, reduceByVolume, 0);
         doc.data.today.entries_count = ordersToday.length;
         doc.data.today.entries = ordersToday;
 
-        doc.data.sevenDays.total_volume = _.reduce(ordersWeek, reduceFunc, 0);
+        doc.data.sevenDays.total_quantity = _.reduce(ordersWeek, reduceByQuantity, 0);
+        doc.data.sevenDays.total_volume = _.reduce(ordersWeek, reduceByVolume, 0);
         doc.data.sevenDays.entries_count = ordersWeek.length;
         doc.data.sevenDays.entries = ordersWeek;
 
