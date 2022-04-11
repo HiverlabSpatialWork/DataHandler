@@ -13,7 +13,6 @@ const http = require("http");
 const Socket = require('ws');
 
 const index = require('./routes/index');
-const disaster = require('./routes/disaster');
 const mqttRoute = require('./routes/mqtt-sample');
 
 const app = express()
@@ -43,7 +42,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/*', index);
-app.use("/disaster", disaster);
 app.use("/mqtt", mqttRoute);
 
 // catch 404 and forward to error handler
@@ -110,4 +108,4 @@ const bree = new Bree({
 const graceful = new Graceful({ brees: [bree] });
 graceful.listen();
 
-bree.start();
+//bree.start();
