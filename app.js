@@ -10,7 +10,7 @@ const Bree = require('bree');
 const JobIndex = require('./jobs/index');
 
 const http = require("http");
-const ws = require('ws');
+const Socket = require('ws');
 
 const index = require('./routes/index');
 const disaster = require('./routes/disaster');
@@ -86,14 +86,16 @@ mqttBroker.listen(port, function () {
 })
 
 const httpServer = http.createServer(app);
-const wss = new ws.WebSocketServer({ server: httpServer });
+const wss = new Socket.WebSocketServer({ server: httpServer });
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function message(data) {
-        console.log('received: %s', data);
+        wss.clients.forEach(function each(client) {
+            if (client !== ws && client.readyState === Socket.WebSocket.OPEN) {
+                client.send(data, { binary: false });
+            }
+        });
     });
-
-    ws.send('something');
 });
 
 httpServer.listen(process.env.PORT || 3000, () => {
