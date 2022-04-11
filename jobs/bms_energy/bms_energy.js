@@ -2,14 +2,13 @@ const { parentPort } = require("worker_threads");
 function print(message) { if (parentPort != null) parentPort.postMessage(message); }
 
 const DatabaseHelper = require('../../helper/DatabaseHelper');
-const ModelHelper = require('../../helper/ModelHelper');
 const _ = require('underscore');
 const datefns = require('date-fns');
 
 let jobName = 'bms_energy';
-const Model = ModelHelper.models[jobName];
-const fetchBMSEnergy_Q1 = ModelHelper.models['fetchBMSEnergy_Q1'];
-const fetchBMSEnergy_Q2 = ModelHelper.models['fetchBMSEnergy_Q2'];
+const Model = require(`model-${jobName}`);
+const fetchBMSEnergy_Q1 = require(`model-${fetchBMSEnergy_Q1}`);
+const fetchBMSEnergy_Q2 = require(`model-${fetchBMSEnergy_Q2}`);
 
 let isCancelled = false;
 if (parentPort) {
@@ -20,7 +19,8 @@ if (parentPort) {
 
 (async () => {
     try {
-        var startTime = Date.now();
+        var startTime = new Date();
+        print(`[${jobName}] Starting transform on ${startTime.toISOString()}`);
 
         //Initiate database connection and define model that we need to use
         await DatabaseHelper.connect();
@@ -113,7 +113,7 @@ if (parentPort) {
         await Model.findOneAndUpdate(query, update, options);
 
         //Finish your code above
-        print(`[${jobName}] Fetch completed in ${(Date.now() - startTime) / 1000.0} seconds`);
+        print(`[${jobName}] Transform completed in ${(Date.now() - startTime) / 1000.0} seconds`);
     } catch (e) {
         print(`[${jobName}] ${e}`);
     } finally {

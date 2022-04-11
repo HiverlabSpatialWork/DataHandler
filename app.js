@@ -98,8 +98,8 @@ wss.on('connection', function connection(ws) {
     });
 });
 
-httpServer.listen(process.env.PORT || 3000, () => {
-    console.log("HTTP Server running on port 3000");
+httpServer.listen(process.env.PORT || 42423, () => {
+    console.log("HTTP Server running on port 42423");
 });
 
 const bree = new Bree({

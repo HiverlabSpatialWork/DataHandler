@@ -3,13 +3,10 @@ function print(message) { if (parentPort != null) parentPort.postMessage(message
 
 const axios = require('axios');
 const DatabaseHelper = require('../../helper/DatabaseHelper');
-const ModelHelper = require('../../helper/ModelHelper');
-const mongoose = require('mongoose');
 const epochHelper = require("../../helper/epoch-helper");
-const Schema = mongoose.Schema;
 
-let jobName = "fetchOrdersData";
-const Model = ModelHelper.models[jobName];
+let jobName = "fetchBMSEnergy_Q1";
+const Model = require(`model-${jobName}`);
 
 let isCancelled = false;
 if (parentPort) {
@@ -20,16 +17,15 @@ if (parentPort) {
 
 (async () => {
     try {
-        var startTime = Date.now();
+        var startTime = new Date();
+        print(`[${jobName}] Starting fetch on ${startTime.toISOString()}`);
 
         await DatabaseHelper.connect();
 
         //Call the API and get its response
-        var response = await axios.post('http://10.236.20.23/ccApp/Service1.svc/fetchOrdersData', {
+        var response = await axios.post('http://10.236.20.23/ccApp/Service1.svc/fetchBMSEnergy_Q1', {
             data: '{["IDENTIFIER":"Hiverlab"]}',
         });
-
-        print(`[${jobName}] API call completed in ${(Date.now() - startTime) / 1000.0} seconds`);
 
         const dataArray = response.data;
 
@@ -39,13 +35,8 @@ if (parentPort) {
             throw "Null data from API";
 
         for (let data of dataArray) {
-            for (var prop in data) {
-                if ((prop.endsWith('DATE') || prop.endsWith('TIME')) &&
-                    data[prop] != null)
-                    data[prop] = epochHelper.convertEpoch(data[prop]);
-            }
-
-            var query = { SERIALKEY: data.SERIALKEY },
+            data.ts = epochHelper.convertEpoch(data.ts);
+            var query = { seq: data.seq },
                 update = data,
                 options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
