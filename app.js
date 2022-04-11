@@ -11,7 +11,6 @@ const JobIndex = require('./jobs/index');
 const broker = require('./mqtt/broker');
 
 const index = require('./routes/index');
-const disaster = require('./routes/disaster');
 const mqttRoute = require('./routes/mqtt-sample');
 
 var app = express();
@@ -41,7 +40,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/*', index);
-app.use("/disaster", disaster);
 app.use("/mqtt", mqttRoute);
 
 // catch 404 and forward to error handler
