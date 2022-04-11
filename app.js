@@ -1,19 +1,21 @@
 'use strict';
-var debug = require('debug')('my express app');
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const debug = require('debug')('my express app')
+const express = require('express')
+const path = require('path')
+const logger = require('morgan')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 const Graceful = require('@ladjs/graceful');
 const Bree = require('bree');
 const JobIndex = require('./jobs/index');
-const broker = require('./mqtt/broker');
+
+const http = require("http");
+const Socket = require('ws');
 
 const index = require('./routes/index');
 const mqttRoute = require('./routes/mqtt-sample');
 
-var app = express();
+const app = express()
 
 require('dotenv').config();
 
@@ -44,7 +46,7 @@ app.use("/mqtt", mqttRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    const err = new Error('Not Found')
     err.status = 404;
     next(err);
 });
@@ -81,11 +83,21 @@ mqttBroker.listen(port, function () {
     console.log('MQTT started and listening on port ', port)
 })
 
-// todo: fix port not reading from .env?
-//app.set('port', process.env.PORT || 42423);
-app.set('port', 42423);
-const server = app.listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + server.address().port);
+const httpServer = http.createServer(app);
+const wss = new Socket.WebSocketServer({ server: httpServer });
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function message(data) {
+        wss.clients.forEach(function each(client) {
+            if (client !== ws && client.readyState === Socket.WebSocket.OPEN) {
+                client.send(data, { binary: false });
+            }
+        });
+    });
+});
+
+httpServer.listen(process.env.PORT || 42423, () => {
+    console.log("HTTP Server running on port 42423");
 });
 
 const bree = new Bree({
@@ -96,4 +108,4 @@ const bree = new Bree({
 const graceful = new Graceful({ brees: [bree] });
 graceful.listen();
 
-bree.start();
+//bree.start();

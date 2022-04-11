@@ -21,7 +21,6 @@ router.post("/connect", async (req, res) => {
         console.log(e);
         res.send("Cannot connect");
     }
-
 });
 
 router.post("/subscribeAndListen", async (req, res) => {
@@ -32,7 +31,9 @@ router.post("/subscribeAndListen", async (req, res) => {
         if (!err) {
             console.log("Subscibed");
             client.on('message', function (topic, message) {
-                console.log(topic.toString(), message.toString())
+                if (topic === "video-alert"){
+
+                }
             })
         } else res.send(err);
     })
@@ -46,5 +47,9 @@ router.post("/publish", async (req, res) => {
     client.publish(topic, message)
     res.send("Message published");
 });
+
+router.get("/send-alert", async(req, res) => {
+
+})
 
 module.exports = router;
