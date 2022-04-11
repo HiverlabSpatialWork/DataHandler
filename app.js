@@ -1,20 +1,22 @@
 'use strict';
-var debug = require('debug')('my express app');
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const debug = require('debug')('my express app')
+const express = require('express')
+const path = require('path')
+const logger = require('morgan')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 const Graceful = require('@ladjs/graceful');
 const Bree = require('bree');
 const JobIndex = require('./jobs/index');
-const broker = require('./mqtt/broker');
+
+const http = require("http");
+const ws = require('ws');
 
 const index = require('./routes/index');
 const disaster = require('./routes/disaster');
 const mqttRoute = require('./routes/mqtt-sample');
 
-var app = express();
+const app = express()
 
 require('dotenv').config();
 
@@ -46,7 +48,7 @@ app.use("/mqtt", mqttRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    const err = new Error('Not Found')
     err.status = 404;
     next(err);
 });
@@ -83,9 +85,19 @@ mqttBroker.listen(port, function () {
     console.log('MQTT started and listening on port ', port)
 })
 
-app.set('port', process.env.PORT || 3000);
-const server = app.listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + server.address().port);
+const httpServer = http.createServer(app);
+const wss = new ws.WebSocketServer({ server: httpServer });
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function message(data) {
+        console.log('received: %s', data);
+    });
+
+    ws.send('something');
+});
+
+httpServer.listen(process.env.PORT || 3000, () => {
+    console.log("HTTP Server running on port 3000");
 });
 
 const bree = new Bree({
