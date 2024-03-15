@@ -1,0 +1,38 @@
+name: 'Generate Changelog'
+
+on:
+  workflow_dispatch: # click the button on Github repo!
+  push:
+     branches:
+       - 'main'
+
+jobs:
+  changelog:
+    name: Generate changelog
+    runs-on: ubuntu-latest
+    outputs:
+      release_body: ${{ steps.git-cliff.outputs.content }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v2
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: -vv
+        env:
+          OUTPUT: generated-changelog.md
+
+      - name: Output generated changelog to file
+        run: cat "${{ steps.git-cliff.outputs.changelog }}" > changelog.md
+
+      - name: Upload changelog as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: changelog
+          path: "changelog.md"
+          #retention-days: 14
